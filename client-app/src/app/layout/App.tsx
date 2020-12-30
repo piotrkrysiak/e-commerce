@@ -1,35 +1,25 @@
-import React, { Component } from "react";
+import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
+import React from "react";
+import "antd/dist/antd.css";
+import NavBar from "../../features/nav/NavBar";
 import "./styles.css";
-import axios from "axios";
-import { List } from "antd";
-import Item from "antd/lib/list/Item";
+import PageFooter from "../../features/nav/PageFooter";
+import Baner from "../../features/dashboard/Banner";
 
-class App extends Component {
-  state = {
-    values: [],
-  };
-  componentDidMount() {
-    axios.get("http://localhost:5000/api/values").then((response) => {
-      this.setState({
-        values: response.data,
-      });
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>
-          Initial project test:
-        </h1>
-        <List>
-          {this.state.values.map((value: any) => (
-            <Item key={value.id}>{value.name}</Item>
-          ))}
-        </List>
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <Layout className="mainLayout">
+      <Header>
+        <NavBar />
+      </Header>
+      <Content style={{ backgroundColor: 'pink'}}>
+      <Baner/>
+      </Content>
+      <Footer>
+        <PageFooter />
+      </Footer>
+    </Layout>
+  );
+};
 
 export default App;
