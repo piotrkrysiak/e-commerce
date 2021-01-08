@@ -13,21 +13,6 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -38,7 +23,6 @@
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Sora&display=swap");
-
 * {
   font-family: "Sora", sans-serif;
   box-sizing: border-box;
@@ -46,137 +30,8 @@
   padding: 0;
 }
 
-.ButtonClass {
-  margin-top: 20px;
-  text-align: center;
-}
-.ant-layout mainLayout{
-    background: #ffffff;
 
-}
-
-.ant-layout-header {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 999;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
-}
-
-.mainLayout .ant-layout-header {
-  background: #ffffff00;
-  padding: 0;
-  height: auto;
-  line-height: 1.6;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.header .ant-menu {
-  border: 220px;
-  background: none;
-}
-
-.header .logo {
-  font-size: 22px;
-  font-weight: 400;
-}
-
-.header .logo .fas {
-  color: #000000;
-  margin: 0 5px 0 0;
-  font-size: 28px;
-}
-
-.header .logo a {
-  color: #333;
-}
-
-.header .logo img{
-  width: 40px;
-  height: auto;
-}
-.ant-menu-item::selection{
-  background-color:aquamarine;
-}
-
-.header .ant-menu li.ant-menu-item::after {
-  content: '';
-  background: #000000;
-  width: 10px;
-  position: absolute;;
-  top: 2px;
-  bottom: 2px;
-  left: 30%;
-  opacity: 0;
-  transition: all 0.3s linear;
-}
-.header .ant-input-group .ant-input-lg {
-  background-color: transparent;
-}
-.header .ant-btn .ant-btn-lg .ant-btn-icon-only{
-  background-color: transparent;
-}
-
-.header .ant-anchor-wrapper {
-  background: none;
-}
-
-.header .ant-anchor {
-  display: flex;
-}
-
-.header .ant-anchor-ink {
-  display: none;
-}
-
-.header .ant-anchor-link {
-  padding: 0 20px;
-  line-height: 1.4;
-  position: relative;
-}
-
-.header .ant-anchor-link:before,
-.header .ant-anchor-link:after {
-  content: '';
-  background: #1890ff;
-  width: 1px;
-  position: absolute;
-  top: 2px;
-  bottom: 2px;
-  left: 30%;
-  opacity: 0;
-  transition: all 0.3s linear;
-}
-
-.header .ant-anchor-link:after {
-  left: auto;
-  right: 30%;
-}
-
-.header .ant-anchor-link.ant-anchor-link-active:before,
-.header .ant-anchor-link:hover:before {
-  left: 5%;
-  opacity: 1;
-}
-
-.header .ant-anchor-link.ant-anchor-link-active:after,
-.header .ant-anchor-link:hover:after {
-  right: 5%;
-  opacity: 1;
-}
-
-.container-fluid {
-  margin: 0 auto;
-  max-width: 1200px;
-  padding: 0 15px;
-}
-
-.ant-layout-footer{
+.ant-layout-footer {
   justify-content: center;
   align-items: center;
   display: flex;
@@ -185,42 +40,4 @@
   height: 60px;
 }
 
-.mobileHidden {
-  display: block;
-}
-.mobileVisible {
-  display: none;
-}
-
-@media only screen and (max-width: 991px) {
-  .pricingBlock .ant-row > div:nth-child(2) .ant-list-item {
-    transform: scale(1.14);
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  .pricingBlock .ant-row > div:nth-child(2) .ant-list-item {
-    transform: scale(1);
-  }
-
-  .mobileVisible {
-    display: block;
-  }
-  
-  .mobileHidden {
-    display: none;
-  }
-}
-
-.buttonColor{
-  background-color: white;
-  border: 1px solid white;
-
-}
-
-.buttonColor:hover{
-  background-color: white;
-
-  border: 1px solid rgb(243, 93, 125);
-}
 

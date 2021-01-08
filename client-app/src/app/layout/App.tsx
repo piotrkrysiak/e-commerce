@@ -1,10 +1,11 @@
-import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 import React from "react";
+import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 import "antd/dist/antd.css";
 import NavBar from "../../features/nav/NavBar";
-import "./styles.css";
 import PageFooter from "../../features/nav/PageFooter";
 import Baner from "../../features/dashboard/Banner";
+import Dashboard from "../../features/dashboard/Dashboard";
+
 
 const App = () => {
   return (
@@ -12,8 +13,9 @@ const App = () => {
       <Header>
         <NavBar />
       </Header>
-      <Content style={{ backgroundColor: 'pink'}}>
-      <Baner/>
+      <Content >
+        <Baner />
+        <Dashboard />
       </Content>
       <Footer>
         <PageFooter />
@@ -23,3 +25,6 @@ const App = () => {
 };
 
 export default App;
+
+
+

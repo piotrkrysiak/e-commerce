@@ -1,0 +1,83 @@
+.container-fluid {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 20px 15px;
+  transform: scale(1.1);
+}
+
+
+.active .container-fluid{
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0px 15px;
+  transform: scale(0.9j);
+
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 15px;
+}
+.ant-layout-header .active {
+  background: #ffffff;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ant-layout-header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background-color: transparent;
+  padding: 0;
+  height: auto;
+  line-height: 1.6;
+  box-shadow: none;
+}
+
+.header .ant-menu {
+  border: 220px;
+  background: none;
+}
+
+.header .logo {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.header .logo a {
+  color: #333;
+}
+
+.header .logo img {
+  width: 40px;
+  height: auto;
+}
+.mobileHidden {
+  display: block;
+}
+.mobileVisible {
+  display: none;
+}
+
+@media only screen and (max-width: 991px) {
+  .pricingBlock .ant-row > div:nth-child(2) .ant-list-item {
+    transform: scale(1.14);
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .pricingBlock .ant-row > div:nth-child(2) .ant-list-item {
+    transform: scale(1);
+  }
+
+  .mobileVisible {
+    display: block;
+  }
+
+  .mobileHidden {
+    display: none;
+  }
+}
