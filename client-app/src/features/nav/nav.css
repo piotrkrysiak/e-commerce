@@ -2,7 +2,6 @@
   margin: 0 auto;
   max-width: 1200px;
   padding: 20px 15px;
-  transform: scale(1.1);
 }
 
 
@@ -10,8 +9,6 @@
   margin: 0 auto;
   max-width: 1200px;
   padding: 0px 15px;
-  transform: scale(0.9j);
-
 }
 
 .header {
