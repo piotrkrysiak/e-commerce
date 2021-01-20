@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Products;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,7 +35,7 @@ namespace API
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             }
             );
-            
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CrosPolicy", policy =>
@@ -42,6 +44,8 @@ namespace API
                 });
             });
             services.AddControllers();
+            services.AddMediatR(typeof(List.Handler).Assembly);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +63,7 @@ namespace API
             app.UseAuthorization();
 
             app.UseCors("CrosPolicy");
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
