@@ -1,45 +1,42 @@
 import { Card } from "antd";
 import Meta from "antd/lib/card/Meta";
 import React from "react";
-import { Interface } from "readline";
-import { IPosts } from "../../app/models/posts";
 import { EditOutlined, CloseOutlined } from "@ant-design/icons";
+import { IProduct } from "../../app/models/product";
 
 interface IProps {
-  post: IPosts;
+  product: IProduct;
   setEditMode: (editMode: boolean) => void;
-  setSelectedPost: (post: IPosts | null) => void;
+  setSelectedProduct: (product: IProduct | null) => void;
 }
 
 export const ProductDetails: React.FC<IProps> = ({
-  post,
+  product,
   setEditMode,
-  setSelectedPost,
+  setSelectedProduct,
 }) => {
   const navigate = () => setEditMode(true);
   return (
     <div>
       <Card
         hoverable
-        cover={
-          <img
-            alt="example"
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        }
+        cover={<img alt="example" src={product.photo} />}
         actions={[
           <EditOutlined onClick={navigate} key="edit" />,
           <CloseOutlined
-            onClick={() => setSelectedPost(null)}
+            onClick={() => setSelectedProduct(null)}
             key="ellipsis"
           />,
         ]}
       >
-        <Meta description={post.name} />
-        <Meta description={post.body} />
-        <Meta description={post.name} />
+        <Meta title={product.name} />
+        {/* <Meta description={product.body} /> */}
+        <Meta description={product.discryption} />
+        <div>
+          {" "}
+          {product.price} {product.currency}
+        </div>
       </Card>
-      ,
     </div>
   );
 };

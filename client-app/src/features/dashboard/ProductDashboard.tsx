@@ -1,68 +1,100 @@
-import { Col, Row } from "antd";
-import React from "react";
-import { IPosts } from "../../app/models/posts";
+import { Col, Drawer, Grid, Row } from "antd";
+import React, { useState } from "react";
+import { IProduct } from "../../app/models/product";
 import { ProductList } from "./ProductList";
 import { ProductDetails } from "../details/ProductDetails";
 import { ProductForm } from "../form/ProductForm";
-
+import { MobileBar } from "./MobileBar";
+const { useBreakpoint } = Grid;
 interface IProps {
-  posts: IPosts[];
+  products: IProduct[];
   loading: boolean;
-  selectPost: (id: number) => void;
-  selectedPost: IPosts | null;
+  selectProduct: (id: number) => void;
+  selectedProduct: IProduct | null;
   editMode: boolean;
   setEditMode: (editMode: boolean) => void;
   openCreateForm: () => void;
-  setSelectedPost: (post: IPosts | null) => void;
-  createPost: (post: IPosts) => void;
-  editPost: (post: IPosts) => void;
-  deletePost: (id: number) => void;
-
+  setSelectedProduct: (product: IProduct | null) => void;
+  createProduct: (product: IProduct) => void;
+  editProduct: (product: IProduct) => void;
+  deleteProduct: (id: number) => void;
 }
 export const ProductDashboard: React.FC<IProps> = ({
-  posts,
+  products,
   loading,
-  selectPost,
-  selectedPost,
+  selectProduct,
+  selectedProduct,
   editMode,
   setEditMode,
   openCreateForm,
-  setSelectedPost,
-  createPost,
-  editPost,
-  deletePost
+  setSelectedProduct,
+  createProduct,
+  editProduct,
+  deleteProduct,
 }) => {
+  const screens = useBreakpoint();
+  const [visible, setVisible] = useState(false);
+  const showDrawer = () => {
+    setVisible(true);
+  };
+  const onClose = () => {
+    setVisible(false);
+  };
   return (
-    <div style={{ margin: "200px" }}>
-      <Row gutter={[16, 16]}>
-        <Col span={12}>
+    <div style={{ margin: "200px 0px 200px" }}>
+      <Row>
+        <Col xs={{ span: 22, offset: 1 }} sm={{ span: 13, offset: 1 }}>
           <ProductList
-            posts={posts}
+            products={products}
             loading={loading}
-            selectPost={selectPost}
+            selectProduct={selectProduct}
             openCreateForm={openCreateForm}
-            deletePost={deletePost}
-
+            deleteProduct={deleteProduct}
+            showDrawer={showDrawer}
           />
         </Col>
-        <Col span={12}>
-          {selectedPost && !editMode && (
+        <Col  xs={{ span: 0, offset: 1 }} sm={{ span: 8, offset: 1 }}>
+          {selectedProduct && !editMode && (
             <ProductDetails
-              post={selectedPost}
+              product={selectedProduct}
               setEditMode={setEditMode}
-              setSelectedPost={setSelectedPost}
+              setSelectedProduct={setSelectedProduct}
             />
           )}
           {editMode && (
             <ProductForm
-              key={(selectedPost && selectedPost.id) || 0}
+              key={(selectedProduct && selectedProduct.id) || 0}
               setEditMode={setEditMode}
-              post={selectedPost}
-              createPost={createPost}
-              editPost={editPost}
+              product={selectedProduct}
+              createProduct={createProduct}
+              editProduct={editProduct}
             />
           )}
         </Col>
+        <Drawer
+          title="S Tech"
+          placement="bottom"
+          onClose={onClose}
+          visible={visible}
+          height="100%"
+        >
+          {selectedProduct && !editMode && (
+            <ProductDetails
+              product={selectedProduct}
+              setEditMode={setEditMode}
+              setSelectedProduct={setSelectedProduct}
+            />
+          )}
+          {editMode && (
+            <ProductForm
+              key={(selectedProduct && selectedProduct.id) || 0}
+              setEditMode={setEditMode}
+              product={selectedProduct}
+              createProduct={createProduct}
+              editProduct={editProduct}
+            />
+          )}
+        </Drawer>
       </Row>
     </div>
   );

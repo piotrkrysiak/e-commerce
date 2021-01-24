@@ -1,42 +1,42 @@
-import { Avatar, Col, List, Rate, Row, Image, Button } from "antd";
-import Title from "antd/lib/skeleton/Title";
+import { List, Row, Button, Grid } from "antd";
 import React from "react";
-import { IPosts } from "../../app/models/posts";
+import { IProduct } from "../../app/models/product";
+import Icon from "../components/design/Icon";
+import { MobileBar } from "./MobileBar";
+import { Product } from "./Product";
 
-interface PostType {
-  posts: IPosts[];
+const { useBreakpoint } = Grid;
+
+interface IProps {
+  products: IProduct[];
   loading: boolean;
-  selectPost: (id: number) => void;
+  selectProduct: (id: number) => void;
   openCreateForm: () => void;
-  deletePost: (id: number) => void;
+  deleteProduct: (id: number) => void;
+  showDrawer: (show: boolean) => void;
+
 }
 
 export const ProductList = ({
-  posts,
+  products,
   loading,
-  selectPost,
+  selectProduct,
   openCreateForm,
-  deletePost,
-}: PostType) => {
-  const select = (id: number) => {
-    console.log(id);
-    selectPost(id);
-  };
-
+  deleteProduct,
+  showDrawer
+}: IProps) => {
+  const screens = useBreakpoint();
   if (loading) {
-    return <h2>Loading...</h2>;
+    return (
+      <>
+        <Icon />
+      </>
+    );
   }
   return (
-    <div style={{ padding: "20px", backgroundColor: "white" }}>
-      <Row
-        style={{
-          backgroundColor: "grey",
-          alignItems: "center",
-          padding: "20px",
-        }}
-      >
-        <Button onClick={openCreateForm}>Dodaj produkt</Button>
-      </Row>
+    <>
+
+      <MobileBar openCreateForm={openCreateForm} showDrawer={showDrawer}/>
       <List
         itemLayout="vertical"
         pagination={{
@@ -44,41 +44,14 @@ export const ProductList = ({
             console.log(page);
           },
         }}
-        dataSource={posts}
-        renderItem={(item) => (
-          <List.Item>
-            <Row gutter={[32, 16]}>
-              <Col>
-                <Image
-                  style={{ width: "180px" }}
-                  src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                />
-              </Col>
-              <Col flex="auto">
-                <List.Item.Meta
-                  avatar={
-                    <Avatar src="https://lp.x-kom.pl/a/podcast/x-kom_sygnet_RGB_2.png" />
-                  }
-                  title={<a href="#">{item.name}</a>}
-                  description={item.body}
-                />
-                <Row style={{ float: "right" }}>
-                  <Rate allowHalf value={4.5} style={{ marginRight: "10px" }} />
-                  <Button
-                    onClick={() => select(item.id)}
-                    style={{ marginRight: "10px" }}
-                  >
-                    Wyświetl Produkt
-                  </Button>
-                  <Button onClick={() => deletePost(item.id)}>
-                    Usuń Produkt
-                  </Button>
-                </Row>
-              </Col>
-            </Row>
-          </List.Item>
-        )}
-      />
-    </div>
+      >
+        <Product
+          products={products}
+          selectProduct={selectProduct}
+          deleteProduct={deleteProduct}
+          showDrawer={showDrawer}
+        />
+      </List>
+    </>
   );
 };
