@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "antd/dist/antd.css";
 import "../../app/layout/styles.css";
 import { IProduct } from "../../app/models/product";
 import { ProductDashboard } from "./ProductDashboard";
+import agent from "../../app/api/agent";
+import LoadingComponent from "../components/design/LoadingComponent";
 
 const AppDashboard = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   const [editMode, setEditMode] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [target, setTarget] = useState("");
 
-  const handleSelectProduct = (id: number) => {
+  const handleSelectProduct = (id: string) => {
     setSelectedProduct(products.filter((p) => p.id === id)[0]);
   };
 
@@ -21,32 +24,61 @@ const AppDashboard = () => {
   };
 
   const handleCreateProducts = (product: IProduct) => {
-    setProducts([...products, product]);
-    setSelectedProduct(product);
-    setEditMode(false);
+    setSubmitting(true);
+    agent.Products.create(product)
+      .then(() => {
+        setProducts([...products, product]);
+        setSelectedProduct(product);
+        setEditMode(false);
+      })
+      .then(() => setSubmitting(false));
   };
 
   const handleEditProducts = (product: IProduct) => {
-    setProducts([...products.filter((p) => p.id !== product.id), product]);
-    setSelectedProduct(product);
-    setEditMode(false);
+    setSubmitting(true);
+    agent.Products.update(product)
+      .then(() => {
+        setProducts([...products.filter((p) => p.id !== product.id), product]);
+        setSelectedProduct(product);
+        setEditMode(false);
+      })
+      .then(() => setSubmitting(false));
   };
 
-  const handleDeleteProduct = (id: number) => {
-    setProducts([...products.filter((p) => p.id !== id)]);
+  const handleDeleteProduct = (event: any, id: string) => {
+    setSubmitting(true);
+    setTarget(event.currentTarget.name)
+    agent.Products.delete(id)
+      .then(() => {
+        setProducts([...products.filter((p) => p.id !== id)]);
+      })
+      .then(() => setSubmitting(false));
   };
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/products");
-      setProducts(res.data);
-      setLoading(false);
-    };
-    fetchProduct();
+    agent.Products.list()
+      .then((response) => {
+        let products: IProduct[] = [];
+        response.forEach((product) => {
+          product.addedDate = product.addedDate.split(".")[0];
+          products.push(product);
+        });
+
+        setProducts(response);
+        setLoading(false);
+      })
+      .then(() => setLoading(false));
   }, []);
 
+  if (loading) return <LoadingComponent />;
 
+  // const fetchProduct = async () => {
+  //   setLoading(true);
+  //   const res = await axios.get("http://localhost:5000/api/products");
+  //   setProducts(res.data);
+  //   setLoading(false);
+  // };
+  // fetchProduct();
   return (
     <>
       <ProductDashboard
@@ -61,6 +93,8 @@ const AppDashboard = () => {
         createProduct={handleCreateProducts}
         editProduct={handleEditProducts}
         deleteProduct={handleDeleteProduct}
+        submitting={submitting}
+        target={target}
       />
     </>
   );

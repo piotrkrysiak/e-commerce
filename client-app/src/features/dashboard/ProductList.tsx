@@ -1,20 +1,18 @@
-import { List, Row, Button, Grid } from "antd";
+import { List } from "antd";
 import React from "react";
 import { IProduct } from "../../app/models/product";
-import Icon from "../components/design/Icon";
+import LoadingComponent from "../components/design/LoadingComponent";
 import { MobileBar } from "./MobileBar";
 import { Product } from "./Product";
-
-const { useBreakpoint } = Grid;
 
 interface IProps {
   products: IProduct[];
   loading: boolean;
-  selectProduct: (id: number) => void;
+  selectProduct: (id: string) => void;
   openCreateForm: () => void;
-  deleteProduct: (id: number) => void;
-  showDrawer: (show: boolean) => void;
-
+  deleteProduct: (e: any, id: string) => void;
+  submitting: boolean;
+  target: string;
 }
 
 export const ProductList = ({
@@ -23,20 +21,19 @@ export const ProductList = ({
   selectProduct,
   openCreateForm,
   deleteProduct,
-  showDrawer
+  submitting,
+  target,
 }: IProps) => {
-  const screens = useBreakpoint();
   if (loading) {
     return (
       <>
-        <Icon />
+        <LoadingComponent />
       </>
     );
   }
   return (
     <>
-
-      <MobileBar openCreateForm={openCreateForm} showDrawer={showDrawer}/>
+      <MobileBar openCreateForm={openCreateForm} />
       <List
         itemLayout="vertical"
         pagination={{
@@ -49,7 +46,8 @@ export const ProductList = ({
           products={products}
           selectProduct={selectProduct}
           deleteProduct={deleteProduct}
-          showDrawer={showDrawer}
+          submitting={submitting}
+          target={target}
         />
       </List>
     </>

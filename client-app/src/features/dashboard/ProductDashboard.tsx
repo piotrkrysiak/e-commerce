@@ -1,15 +1,14 @@
-import { Col, Drawer, Grid, Row } from "antd";
-import React, { useState } from "react";
+import { Col, Row } from "antd";
+import React from "react";
 import { IProduct } from "../../app/models/product";
 import { ProductList } from "./ProductList";
 import { ProductDetails } from "../details/ProductDetails";
 import { ProductForm } from "../form/ProductForm";
-import { MobileBar } from "./MobileBar";
-const { useBreakpoint } = Grid;
+
 interface IProps {
   products: IProduct[];
   loading: boolean;
-  selectProduct: (id: number) => void;
+  selectProduct: (id: string) => void;
   selectedProduct: IProduct | null;
   editMode: boolean;
   setEditMode: (editMode: boolean) => void;
@@ -17,7 +16,9 @@ interface IProps {
   setSelectedProduct: (product: IProduct | null) => void;
   createProduct: (product: IProduct) => void;
   editProduct: (product: IProduct) => void;
-  deleteProduct: (id: number) => void;
+  deleteProduct: (event:any ,id: string) => void;
+  submitting: boolean;
+  target: string
 }
 export const ProductDashboard: React.FC<IProps> = ({
   products,
@@ -31,15 +32,10 @@ export const ProductDashboard: React.FC<IProps> = ({
   createProduct,
   editProduct,
   deleteProduct,
+  submitting,
+  target
 }) => {
-  const screens = useBreakpoint();
-  const [visible, setVisible] = useState(false);
-  const showDrawer = () => {
-    setVisible(true);
-  };
-  const onClose = () => {
-    setVisible(false);
-  };
+ 
   return (
     <div style={{ margin: "200px 0px 200px" }}>
       <Row>
@@ -50,7 +46,8 @@ export const ProductDashboard: React.FC<IProps> = ({
             selectProduct={selectProduct}
             openCreateForm={openCreateForm}
             deleteProduct={deleteProduct}
-            showDrawer={showDrawer}
+            submitting={submitting}
+            target={target}
           />
         </Col>
         <Col  xs={{ span: 0, offset: 1 }} sm={{ span: 8, offset: 1 }}>
@@ -68,33 +65,10 @@ export const ProductDashboard: React.FC<IProps> = ({
               product={selectedProduct}
               createProduct={createProduct}
               editProduct={editProduct}
+              submitting={submitting}
             />
           )}
         </Col>
-        <Drawer
-          title="S Tech"
-          placement="bottom"
-          onClose={onClose}
-          visible={visible}
-          height="100%"
-        >
-          {selectedProduct && !editMode && (
-            <ProductDetails
-              product={selectedProduct}
-              setEditMode={setEditMode}
-              setSelectedProduct={setSelectedProduct}
-            />
-          )}
-          {editMode && (
-            <ProductForm
-              key={(selectedProduct && selectedProduct.id) || 0}
-              setEditMode={setEditMode}
-              product={selectedProduct}
-              createProduct={createProduct}
-              editProduct={editProduct}
-            />
-          )}
-        </Drawer>
       </Row>
     </div>
   );

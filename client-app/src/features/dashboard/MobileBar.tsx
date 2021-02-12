@@ -1,4 +1,4 @@
-import { Button, Col, Drawer, Menu, Row } from "antd";
+import { Col, Row } from "antd";
 import React from "react";
 import styled from "styled-components";
 
@@ -7,10 +7,6 @@ import {
   FormOutlined,
   SortAscendingOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
-import { Product } from "./Product";
-import { ProductForm } from "../form/ProductForm";
-import { IProduct } from "../../app/models/product";
 
 const StyledRow = styled(Row)`
   background-color: white;
@@ -28,17 +24,16 @@ const StyledRow = styled(Row)`
     align-items: center;
     height: 100%;
     justify-content: center;
+    cursor: pointer;
   }
 `;
 interface IProps {
   openCreateForm: () => void;
-  showDrawer: (show: boolean) => void;
 }
 
-export const MobileBar: React.FC<IProps> = ({ openCreateForm, showDrawer }) => {
+export const MobileBar: React.FC<IProps> = ({ openCreateForm }) => {
   const openCreateFormDrawer = () => {
     openCreateForm();
-    //showDrawer(true);
   };
 
   return (

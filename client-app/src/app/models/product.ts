@@ -1,5 +1,5 @@
 export interface IProduct{
-    id: number;
+    id: string;
     storeId: number;
     serialNumber: string;
     name: string;
@@ -12,7 +12,7 @@ export interface IProduct{
     currency: string;
     discryption: string;
     discount: number;
-    avalibity: boolean;
+    availabity: boolean;
     buyersAmount: number;
     feedbackAmount: number;
     labael: string;

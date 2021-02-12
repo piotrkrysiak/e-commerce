@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 import "antd/dist/antd.css";
 import NavBar from "../../features/nav/NavBar";
@@ -15,6 +15,7 @@ const App = () => {
         <AppDashboard />
       </Content>
       <Footer>
+        <PageFooter/>
       </Footer>
     </Layout>
   );

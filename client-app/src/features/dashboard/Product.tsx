@@ -5,9 +5,10 @@ import { FullscreenOutlined, DeleteOutlined } from "@ant-design/icons";
 
 interface IProps {
   products: IProduct[];
-  selectProduct: (id: number) => void;
-  deleteProduct: (id: number) => void;
-  showDrawer: (show: boolean) => void;
+  selectProduct: (id: string) => void;
+  deleteProduct: (e: any, id: string) => void;
+  submitting: boolean;
+  target: string
 }
 
 const { useBreakpoint } = Grid;
@@ -16,12 +17,12 @@ export const Product: React.FC<IProps> = ({
   products,
   selectProduct,
   deleteProduct,
-  showDrawer,
+  submitting,
+  target
 }) => {
   const screens = useBreakpoint();
-  const showDetails = (id: number) => {
+  const showDetails = (id: string) => {
     selectProduct(id);
-    //showDrawer(true);
   };
   return (
     <>
@@ -35,8 +36,12 @@ export const Product: React.FC<IProps> = ({
           feedbackAmount,
           price,
           currency,
+          addedDate,
         }) => (
-          <List.Item style={{ padding: "10px 0", borderRight: "20px" }}>
+          <List.Item
+            key={id}
+            style={{ padding: "10px 0", borderRight: "20px" }}
+          >
             <Row
               gutter={[0, 8]}
               style={{
@@ -83,10 +88,12 @@ export const Product: React.FC<IProps> = ({
                   </Col>
                   <Col>
                     <Button
+                      name={id}
+                      loading={target === id && submitting}
                       type="primary"
                       shape="circle"
                       icon={<DeleteOutlined />}
-                      onClick={() => deleteProduct(id)}
+                      onClick={(e) => deleteProduct(e, id)}
                     />
                   </Col>
                 </Row>
