@@ -5,7 +5,11 @@ import NavBar from "../../features/nav/NavBar";
 import PageFooter from "../../features/nav/PageFooter";
 import AppDashboard from "../../features/dashboard/AdminDashboard";
 
+import { observer } from "mobx-react-lite";
+
 const App = () => {
+
+
   return (
     <Layout>
       <Header>
@@ -13,12 +17,13 @@ const App = () => {
       </Header>
       <Content>
         <AppDashboard />
+
       </Content>
       <Footer>
-        <PageFooter/>
+        <PageFooter />
       </Footer>
     </Layout>
   );
 };
 
-export default App;
+export default observer(App);

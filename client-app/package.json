@@ -13,6 +13,8 @@
     "@types/uuid": "^8.3.0",
     "antd": "^4.9.4",
     "axios": "^0.21.1",
+    "mobx": "^6.1.6",
+    "mobx-react-lite": "^3.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^4.0.1",

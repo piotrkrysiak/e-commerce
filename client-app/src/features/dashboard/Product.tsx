@@ -1,29 +1,26 @@
 import { Button, Col, List, Rate, Row, Image, Grid } from "antd";
-import React from "react";
-import { IProduct } from "../../app/models/product";
+import React, { useState } from "react";
 import { FullscreenOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useStore } from "../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface IProps {
-  products: IProduct[];
-  selectProduct: (id: string) => void;
-  deleteProduct: (e: any, id: string) => void;
-  submitting: boolean;
-  target: string
-}
+export default observer(function Product() {
+  const { useBreakpoint } = Grid;
 
-const { useBreakpoint } = Grid;
+  const { productStore } = useStore();
+  const { deleteProduct, productsByName : products, loading } = productStore;
+  const [target, setTarget] = useState("");
 
-export const Product: React.FC<IProps> = ({
-  products,
-  selectProduct,
-  deleteProduct,
-  submitting,
-  target
-}) => {
   const screens = useBreakpoint();
-  const showDetails = (id: string) => {
-    selectProduct(id);
+  const handleShowDetails = (id: string) => {
+    productStore.selectProduct(id);
   };
+
+  function handleDeleteProduct(e: any, id: string) {
+    setTarget(e.currentTarget.name);
+    deleteProduct(id);
+  }
+
   return (
     <>
       {products.map(
@@ -36,7 +33,6 @@ export const Product: React.FC<IProps> = ({
           feedbackAmount,
           price,
           currency,
-          addedDate,
         }) => (
           <List.Item
             key={id}
@@ -83,17 +79,17 @@ export const Product: React.FC<IProps> = ({
                       type="primary"
                       shape="circle"
                       icon={<FullscreenOutlined />}
-                      onClick={() => showDetails(id)}
+                      onClick={() => handleShowDetails(id)}
                     />
                   </Col>
                   <Col>
                     <Button
                       name={id}
-                      loading={target === id && submitting}
+                      loading={target === id && loading}
                       type="primary"
                       shape="circle"
                       icon={<DeleteOutlined />}
-                      onClick={(e) => deleteProduct(e, id)}
+                      onClick={(e) => handleDeleteProduct(e, id)}
                     />
                   </Col>
                 </Row>
@@ -109,4 +105,4 @@ export const Product: React.FC<IProps> = ({
       )}
     </>
   );
-};
+});

@@ -25,6 +25,8 @@ const Products = {
   delete: (id: string) => request.del(`/products/${id}`),
 };
 
-export default {
-  Products,
-};
+const agent = {
+  Products
+}
+
+export default agent;

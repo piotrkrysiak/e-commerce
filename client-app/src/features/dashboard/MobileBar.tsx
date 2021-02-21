@@ -7,6 +7,7 @@ import {
   FormOutlined,
   SortAscendingOutlined,
 } from "@ant-design/icons";
+import { useStore } from "../../app/stores/store";
 
 const StyledRow = styled(Row)`
   background-color: white;
@@ -27,21 +28,18 @@ const StyledRow = styled(Row)`
     cursor: pointer;
   }
 `;
-interface IProps {
-  openCreateForm: () => void;
-}
 
-export const MobileBar: React.FC<IProps> = ({ openCreateForm }) => {
-  const openCreateFormDrawer = () => {
-    openCreateForm();
-  };
+
+export const MobileBar= () => {
+
+  const {productStore} = useStore();
 
   return (
     <StyledRow>
       <Col span={4}>
         <UnorderedListOutlined />
       </Col>
-      <Col span={10} onClick={openCreateFormDrawer}>
+      <Col span={10} onClick={() =>productStore.openForm()}>
         <FormOutlined />
         Formularz
       </Col>

@@ -1,37 +1,33 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import {
   Form,
   Input,
   Button,
   DatePicker,
   InputNumber,
-  Row, 
+  Row,
   Switch,
 } from "antd";
 import { IProduct } from "../../app/models/product";
 import { v4 as uuid } from "uuid";
 import moment from "moment";
+import { useStore } from "../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
+// TODO: OnChange on date and number rozdziel na mniejsze
 
+const dateFormat = "YYYY-MM-DD";
 
-// TODO: OnChange on date and number
+export default observer(function ProductForm() {
+  const { productStore } = useStore();
+  const {
+    selectedProduct: initializeFormProduct,
+    closeForm,
+    createProduct,
+    updateProduct,
+    loading,
+  } = productStore;
 
-interface IProps {
-  setEditMode: (editMode: boolean) => void;
-  product: IProduct | null;
-  createProduct: (product: IProduct) => void;
-  editProduct: (product: IProduct) => void;
-  submitting: boolean
-}
-const dateFormat = "YYYY-MM-DD HH:mm";
-
-export const ProductForm: React.FC<IProps> = ({
-  setEditMode,
-  product: initializeFormProduct,
-  createProduct,
-  editProduct,
-  submitting
-}) => {
   const initializeForm = () => {
     if (initializeFormProduct) {
       return initializeFormProduct;
@@ -47,10 +43,12 @@ export const ProductForm: React.FC<IProps> = ({
         feedbackAmount: 4,
         id: "",
         labael: "Promocja",
-        mainPhoto: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/4/pr_2020_4_9_13_38_6_587_00.jpg",
+        mainPhoto:
+          "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/4/pr_2020_4_9_13_38_6_587_00.jpg",
         model: "M.2 2280",
         name: "",
-        photo: "https://allegro.stati.pl/AllegroIMG/PRODUCENCI/CRUCIAL/CT250P2SSD8/a2-dysk-ssd-crucial-p2-250gb-m.2-nvme.jpg",
+        photo:
+          "https://allegro.stati.pl/AllegroIMG/PRODUCENCI/CRUCIAL/CT250P2SSD8/a2-dysk-ssd-crucial-p2-250gb-m.2-nvme.jpg",
         price: 199,
         producent: "Crucial",
         rating: 4,
@@ -63,33 +61,23 @@ export const ProductForm: React.FC<IProps> = ({
 
   const [product, setProduct] = useState<IProduct>(initializeForm);
 
-  const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement> | any
-  ) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement> | any) => {
     const { name, value } = event.currentTarget;
     console.log(name);
     setProduct({ ...product, [name]: value });
   };
-  
 
   const handleSubmit = () => {
-    if (product.id.length === 0) {
-      console.log("if");
-      let newProduct = {
-        ...product,
-        id: uuid()
-      };
-      console.log(newProduct);
-      createProduct(newProduct);
-    } else editProduct(product);
+    product.id ? updateProduct(product) : createProduct(product);
   };
 
-  const handleDateChange = (date: any, dateString: any) =>{
-    const value = dateString;
+  const handleDateChange = (_moment: any, date: any) => {
+    const value = date;
     console.log(value);
-    setProduct({ ...product, [product.addedDate]: value }); //TODO: data nie działa zupełnie nie przekazuje wartości do produktu 
+    product.addedDate = value;
+    setProduct(product); //TODO: wydziel end od added
     console.log(product);
-  }
+  };
 
   return (
     <div style={{ backgroundColor: "white", padding: "20px" }}>
@@ -192,7 +180,6 @@ export const ProductForm: React.FC<IProps> = ({
         </Form.Item>
         <Form.Item label="Avalibity">
           <Switch defaultChecked />
-          {/* TODO: */}
         </Form.Item>
         <Form.Item label="bouyersAmount">
           <InputNumber
@@ -232,23 +219,25 @@ export const ProductForm: React.FC<IProps> = ({
             defaultValue={moment(product.addedDate, dateFormat)}
             onChange={handleDateChange}
             name="addedDate"
-            format="YYYY-MM-DD HH:mm"
+            format="YYYY-MM-DD"
           />
         </Form.Item>
         <Form.Item label="endDate">
           <DatePicker
             defaultValue={moment(product.endDate, dateFormat)}
+            value={moment(product.endDate, dateFormat)}
+            onPanelChange={handleDateChange}
             onChange={handleDateChange}
             name="endDate"
           />
         </Form.Item>
         <Row>
-          <Button onClick={handleSubmit} type="primary" loading={submitting}>
+          <Button onClick={handleSubmit} type="primary" loading={loading}>
             Submit
           </Button>
-          <Button onClick={() => setEditMode(false)}>Cancel</Button>
+          <Button onClick={closeForm}>Cancel</Button>
         </Row>
       </Form>
     </div>
   );
-};
+});
