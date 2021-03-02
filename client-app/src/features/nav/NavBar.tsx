@@ -4,8 +4,7 @@ import "./nav.css";
 import { MenuOutlined } from "@ant-design/icons";
 import logo from "../../app/assets/logo1.png";
 import { SearchInput } from "./Search";
-
-
+import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
   const [visible, setVisible] = useState(false);
@@ -36,12 +35,22 @@ export default function NavBar() {
             <a href="/">S Tech</a>
           </div>
           <div className="mobileHidden">
-            <SearchInput/>
+            <SearchInput />
           </div>
           <div className="mobileHidden">
             <Menu mode="horizontal">
-              <Menu.Item>Home</Menu.Item>
-              <Menu.Item>About</Menu.Item>
+              <Menu.Item>
+                Menu
+                <NavLink to="/"></NavLink>
+              </Menu.Item>
+              <Menu.Item>
+                Products
+                <NavLink to="/Products"></NavLink>
+              </Menu.Item>
+              <Menu.Item>
+                Form
+                <NavLink to="/createForm"></NavLink>
+              </Menu.Item>
             </Menu>
           </div>
           <div className="mobileVisible">
@@ -55,8 +64,7 @@ export default function NavBar() {
               onClose={onClose}
               visible={visible}
             >
-              <p>
-              </p>
+              <p></p>
               <p>Home</p>
               <p>About</p>
             </Drawer>

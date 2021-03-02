@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   Form,
   Input,
@@ -9,57 +9,57 @@ import {
   Switch,
 } from "antd";
 import { IProduct } from "../../app/models/product";
-import { v4 as uuid } from "uuid";
 import moment from "moment";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import { Link, useHistory, useParams } from "react-router-dom";
+import LoadingComponent from "../components/design/LoadingComponent";
+import { v4 as uuid } from "uuid";
 
 // TODO: OnChange on date and number rozdziel na mniejsze
 
 const dateFormat = "YYYY-MM-DD";
 
 export default observer(function ProductForm() {
+  const history = useHistory();
   const { productStore } = useStore();
   const {
-    selectedProduct: initializeFormProduct,
-    closeForm,
     createProduct,
     updateProduct,
     loading,
+    loadProduct,
+    loadingInitial,
   } = productStore;
+  const { id } = useParams<{ id: string }>();
 
-  const initializeForm = () => {
-    if (initializeFormProduct) {
-      return initializeFormProduct;
-    } else {
-      return {
-        addedDate: "0001-01-01T00:00:00",
-        availabity: true,
-        buyersAmount: 5,
-        currency: "zł",
-        discount: 20,
-        discryption: "",
-        endDate: "0001-01-01T00:00:00",
-        feedbackAmount: 4,
-        id: "",
-        labael: "Promocja",
-        mainPhoto:
-          "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/4/pr_2020_4_9_13_38_6_587_00.jpg",
-        model: "M.2 2280",
-        name: "",
-        photo:
-          "https://allegro.stati.pl/AllegroIMG/PRODUCENCI/CRUCIAL/CT250P2SSD8/a2-dysk-ssd-crucial-p2-250gb-m.2-nvme.jpg",
-        price: 199,
-        producent: "Crucial",
-        rating: 4,
-        serialNumber: "",
-        shippingCost: 0,
-        storeId: 50,
-      };
-    }
-  };
+  const [product, setProduct] = useState<IProduct>({
+    addedDate: "0001-01-01T00:00:00",
+    availabity: true,
+    buyersAmount: 5,
+    currency: "zł",
+    discount: 20,
+    discryption: "",
+    endDate: "0001-01-01T00:00:00",
+    feedbackAmount: 4,
+    id: "",
+    labael: "",
+    mainPhoto:
+      "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/4/pr_2020_4_9_13_38_6_587_00.jpg",
+    model: "M.2 2280",
+    name: "",
+    photo:
+      "https://allegro.stati.pl/AllegroIMG/PRODUCENCI/CRUCIAL/CT250P2SSD8/a2-dysk-ssd-crucial-p2-250gb-m.2-nvme.jpg",
+    price: 199,
+    producent: "Crucial",
+    rating: 4,
+    serialNumber: "",
+    shippingCost: 0,
+    storeId: 50,
+  });
 
-  const [product, setProduct] = useState<IProduct>(initializeForm);
+  useEffect(() => {
+    if (id) loadProduct(id).then((product) => setProduct(product!));
+  }, [id, loadProduct]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement> | any) => {
     const { name, value } = event.currentTarget;
@@ -68,7 +68,19 @@ export default observer(function ProductForm() {
   };
 
   const handleSubmit = () => {
-    product.id ? updateProduct(product) : createProduct(product);
+    if (product.id.length === 0) {
+      let newProduct = {
+        ...product,
+        id: uuid(),
+      };
+      createProduct(newProduct).then(() =>
+        history.push(`/products/${newProduct.id}`)
+      );
+    } else {
+      updateProduct(product).then(() =>
+        history.push(`/products/${product.id}`)
+      );
+    }
   };
 
   const handleDateChange = (_moment: any, date: any) => {
@@ -78,6 +90,8 @@ export default observer(function ProductForm() {
     setProduct(product); //TODO: wydziel end od added
     console.log(product);
   };
+
+  if (loadingInitial) return <LoadingComponent />;
 
   return (
     <div style={{ backgroundColor: "white", padding: "20px" }}>
@@ -235,7 +249,9 @@ export default observer(function ProductForm() {
           <Button onClick={handleSubmit} type="primary" loading={loading}>
             Submit
           </Button>
-          <Button onClick={closeForm}>Cancel</Button>
+          <Link to ='/products'>
+            <Button>Cancel</Button>
+          </Link>
         </Row>
       </Form>
     </div>

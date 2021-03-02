@@ -3,18 +3,16 @@ import React, { useState } from "react";
 import { FullscreenOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import {  NavLink } from "react-router-dom";
 
 export default observer(function Product() {
   const { useBreakpoint } = Grid;
 
   const { productStore } = useStore();
-  const { deleteProduct, productsByName : products, loading } = productStore;
+  const { deleteProduct, productsByName: products, loading } = productStore;
   const [target, setTarget] = useState("");
 
   const screens = useBreakpoint();
-  const handleShowDetails = (id: string) => {
-    productStore.selectProduct(id);
-  };
 
   function handleDeleteProduct(e: any, id: string) {
     setTarget(e.currentTarget.name);
@@ -75,12 +73,13 @@ export default observer(function Product() {
 
                 <Row gutter={[8, 8]}>
                   <Col>
-                    <Button
-                      type="primary"
-                      shape="circle"
-                      icon={<FullscreenOutlined />}
-                      onClick={() => handleShowDetails(id)}
-                    />
+                    <NavLink to={`/products/${id}`}>
+                      <Button
+                        type="primary"
+                        shape="circle"
+                        icon={<FullscreenOutlined />}
+                      ></Button>
+                    </NavLink>
                   </Col>
                   <Col>
                     <Button

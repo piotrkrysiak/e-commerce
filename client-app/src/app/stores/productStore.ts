@@ -1,5 +1,4 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { v4 as uuid } from "uuid";
 import agent from "../api/agent";
 import { IProduct } from "../models/product";
 
@@ -15,16 +14,18 @@ export default class ProductStore {
   }
 
   get productsByName() {
-    return Array.from(this.productRegistry.values()).sort((a,b)=> a.storeId - b.storeId);
+    return Array.from(this.productRegistry.values()).sort(
+      (a, b) => a.storeId - b.storeId
+    );
   }
 
   loadProducts = async () => {
+    this.loadingInitial = true;
     try {
       const products = await agent.Products.list();
 
       products.forEach((product) => {
-        product.addedDate = product.addedDate.split(".")[0];
-        this.productRegistry.set(product.id, product);
+        this.setProduct(product);
       });
 
       this.setLoadingInitial(false);
@@ -32,6 +33,36 @@ export default class ProductStore {
       console.log(error);
       this.setLoadingInitial(false);
     }
+  };
+  loadProduct = async (id: string) => {
+    let product = this.getProduct(id);
+    if (product) {
+      this.selectedProduct = product;
+      return product;
+    } else {
+      this.loadingInitial = true;
+      try {
+        product = await agent.Products.details(id);
+        this.setProduct(product);
+        runInAction(() => {
+          this.selectedProduct = product;
+        });
+        this.setLoadingInitial(false);
+        return product;
+      } catch (error) {
+        console.log(error);
+        this.setLoadingInitial(false);
+      }
+    }
+  };
+
+  private getProduct = (id: string) => {
+    return this.productRegistry.get(id);
+  };
+
+  private setProduct = (product: IProduct | any) => {
+    product.addedDate = product.addedDate.split(".")[0];
+    this.productRegistry.set(product.id, product);
   };
 
   setLoadingInitial = (state: boolean) => {
@@ -52,13 +83,12 @@ export default class ProductStore {
     this.editMode = true;
   };
 
-  closeForm = () => {
-    this.editMode = false;
-  };
+  // closeForm = () => {
+  //   this.editMode = false;
+  // };
 
   createProduct = async (product: IProduct) => {
     this.loading = true;
-    product.id = uuid();
     try {
       await agent.Products.create(product);
       runInAction(() => {
@@ -99,7 +129,7 @@ export default class ProductStore {
       await agent.Products.delete(id);
       runInAction(() => {
         this.productRegistry.delete(id);
-        if (this.selectedProduct?.id === id) this.cancelSelectedProduct();
+        // if (this.selectedProduct?.id === id) this.cancelSelectedProduct();
         this.loading = false;
       });
     } catch (error) {

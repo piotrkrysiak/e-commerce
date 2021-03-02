@@ -1,19 +1,26 @@
 import { Card } from "antd";
 import Meta from "antd/lib/card/Meta";
-import React from "react";
+import React, { useEffect } from "react";
 import { EditOutlined, CloseOutlined } from "@ant-design/icons";
 import { useStore } from "../../app/stores/store";
 import LoadingComponent from "../components/design/LoadingComponent";
+import { Link, useParams } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
-export const ProductDetails = () => {
+export default observer(function ProductDetails() {
   const { productStore } = useStore();
   const {
     selectedProduct: product,
-    openForm,
-    cancelSelectedProduct,
+    loadProduct,
+    loadingInitial,
   } = productStore;
+  const { id } = useParams<{ id: string }>();
 
-  if (!product) return <LoadingComponent />;
+  useEffect(() => {
+    if (id) loadProduct(id);
+  }, [id, loadProduct]);
+
+  if (loadingInitial || !product) return <LoadingComponent />;
 
   return (
     <div>
@@ -21,12 +28,15 @@ export const ProductDetails = () => {
         hoverable
         cover={<img alt="example" src={product.photo} />}
         actions={[
-          <EditOutlined onClick={() => openForm(product.id)} key="edit" />,
-          <CloseOutlined onClick={cancelSelectedProduct} key="ellipsis" />,
+          <Link to={`/manage/${id}`}>
+            <EditOutlined key="edit" />
+          </Link>,
+          <Link to="/products">
+            <CloseOutlined key="ellipsis" />,
+          </Link>
         ]}
       >
         <Meta title={product.name} />
-        {/* <Meta description={product.body} /> */}
         <Meta description={product.discryption} />
         <div>
           {product.price} {product.currency}
@@ -34,4 +44,4 @@ export const ProductDetails = () => {
       </Card>
     </div>
   );
-};
+});
