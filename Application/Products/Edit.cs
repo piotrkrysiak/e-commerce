@@ -43,7 +43,7 @@ namespace Application.Products
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var product = await _context.ProductsDb.FindAsync(request.Id);
+                var product = await _context.Products.FindAsync(request.Id);
 
                 if (product == null)
                 {
@@ -59,12 +59,12 @@ namespace Application.Products
                     product.Price = request.Price  ?? product.Price ;
                     product.ShippingCost = request.ShippingCost  ?? product.ShippingCost ;
                     product.Currency = request.Currency  ?? product.Currency ;
-                    product.Discryption = request.Discryption  ?? product.Discryption ;
+                    product.Description = request.Discryption  ?? product.Description ;
                     product.Discount = request.Discount  ?? product.Discount ;
-                    product.Availabity = request.Availabity  ?? product.Availabity ;
+                    product.Availability = request.Availabity  ?? product.Availability ;
                     product.BuyersAmount = request.BuyersAmount  ?? product.BuyersAmount ;
                     product.FeedbackAmount = request.FeedbackAmount  ?? product.FeedbackAmount ;
-                    product.Labael = request.Labael ?? product.Labael ;
+                    product.Label = request.Labael ?? product.Label ;
                     product.Rating = request.Rating ?? product.Rating ;
                     product.AddedDate = request.AddedDate  ?? product.AddedDate ;
                     product.EndDate = request.EndDate ?? product.EndDate ;

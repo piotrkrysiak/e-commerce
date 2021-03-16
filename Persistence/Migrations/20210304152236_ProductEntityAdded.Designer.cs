@@ -9,14 +9,14 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210119164117_ProductDbEntityAdded")]
-    partial class ProductDbEntityAdded
+    [Migration("20210304152236_ProductEntityAdded")]
+    partial class ProductEntityAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.4");
+                .HasAnnotation("ProductVersion", "5.0.3");
 
             modelBuilder.Entity("Domain.Product", b =>
                 {
@@ -27,7 +27,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Availabity")
+                    b.Property<bool>("Availability")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("BuyersAmount")
@@ -36,11 +36,11 @@ namespace Persistence.Migrations
                     b.Property<string>("Currency")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
                     b.Property<double>("Discount")
                         .HasColumnType("REAL");
-
-                    b.Property<string>("Discryption")
-                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
@@ -48,7 +48,7 @@ namespace Persistence.Migrations
                     b.Property<int>("FeedbackAmount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Labael")
+                    b.Property<string>("Label")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MainPhoto")
@@ -83,7 +83,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductsDb");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Domain.Value", b =>
@@ -114,6 +114,11 @@ namespace Persistence.Migrations
                         {
                             Id = 3,
                             Name = "Value 103"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Value 104"
                         });
                 });
 #pragma warning restore 612, 618

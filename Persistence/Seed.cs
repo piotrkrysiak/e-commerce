@@ -8,7 +8,7 @@ namespace Persistence
     {
         public static void SeedData(DataContext context)
         {
-            if (!context.ProductsDb.Any())
+            if (!context.Products.Any())
             {
                 var products = new List<Product>{
                     new Product
@@ -23,12 +23,12 @@ namespace Persistence
                         Price = 199.00,
                         ShippingCost = 0.00,
                         Currency = "zł",
-                        Discryption = "Crucial P2 to szybki dysk M.2 NVMe o pojemności 250 GB, na którym możesz polegać. Długi czas oczekiwania na start komputera może być frustrujący bez względu na to, czy pracujesz, czy zasiadasz do gry komputerowej. Z pomocą przychodzi dysk Crucial P2, który dzięki technologii NVMe, znacznie przyspiesza działanie komputera w wielu sytuacjach.",
+                        Description = "Crucial P2 to szybki dysk M.2 NVMe o pojemności 250 GB, na którym możesz polegać. Długi czas oczekiwania na start komputera może być frustrujący bez względu na to, czy pracujesz, czy zasiadasz do gry komputerowej. Z pomocą przychodzi dysk Crucial P2, który dzięki technologii NVMe, znacznie przyspiesza działanie komputera w wielu sytuacjach.",
                         Discount = 20.00,
-                        Availabity = true,
+                        Availability = true,
                         BuyersAmount = 5,
                         FeedbackAmount = 4,
-                        Labael = "Promocja",
+                        Label = "Promocja",
                         Rating = 4.0,
                     },
                     new Product
@@ -43,12 +43,12 @@ namespace Persistence
                         Price = 199.00,
                         ShippingCost = 0.00,
                         Currency = "zł",
-                        Discryption = "Crucial P2 to szybki dysk M.2 NVMe o pojemności 250 GB, na którym możesz polegać. Długi czas oczekiwania na start komputera może być frustrujący bez względu na to, czy pracujesz, czy zasiadasz do gry komputerowej. Z pomocą przychodzi dysk Crucial P2, który dzięki technologii NVMe, znacznie przyspiesza działanie komputera w wielu sytuacjach.",
+                        Description = "Crucial P2 to szybki dysk M.2 NVMe o pojemności 250 GB, na którym możesz polegać. Długi czas oczekiwania na start komputera może być frustrujący bez względu na to, czy pracujesz, czy zasiadasz do gry komputerowej. Z pomocą przychodzi dysk Crucial P2, który dzięki technologii NVMe, znacznie przyspiesza działanie komputera w wielu sytuacjach.",
                         Discount = 20.00,
-                        Availabity = true,
+                        Availability = true,
                         BuyersAmount = 5,
                         FeedbackAmount = 4,
-                        Labael = "Promocja",
+                        Label = "Promocja",
                         Rating = 4.0,
                     },
                     new Product
@@ -63,12 +63,12 @@ namespace Persistence
                         Price = 3299.00,
                         ShippingCost = 0.00,
                         Currency = "zł",
-                        Discryption = "Elegancko wykończony, efektowny, a jednocześnie minimalistyczny. Lenovo Yoga S740-14 to laptop, który otwiera przed Tobą mobilne wrota, za którymi mnożą się nieskończone możliwości. Pracuj, oglądaj ulubione filmy i seriale, dziel się wrażeniami ze swoimi przyjaciółmi.",
+                        Description = "Elegancko wykończony, efektowny, a jednocześnie minimalistyczny. Lenovo Yoga S740-14 to laptop, który otwiera przed Tobą mobilne wrota, za którymi mnożą się nieskończone możliwości. Pracuj, oglądaj ulubione filmy i seriale, dziel się wrażeniami ze swoimi przyjaciółmi.",
                         Discount = 0.00,
-                        Availabity = true,
+                        Availability = true,
                         BuyersAmount = 5,
                         FeedbackAmount = 4,
-                        Labael = "Bestseller",
+                        Label = "Bestseller",
                         Rating = 4.5,
                     },
                     new Product
@@ -83,16 +83,16 @@ namespace Persistence
                         Price = 999.00,
                         ShippingCost = 0.00,
                         Currency = "zł",
-                        Discryption = "Masz także do dyspozycji wydajną baterię 5020 mAh oraz wyselekcjonowane podzespoły, które zagwarantują Ci płynną pracę każdego dnia.",
+                        Description = "Masz także do dyspozycji wydajną baterię 5020 mAh oraz wyselekcjonowane podzespoły, które zagwarantują Ci płynną pracę każdego dnia.",
                         Discount = 30.00,
-                        Availabity = true,
+                        Availability = true,
                         BuyersAmount = 5,
                         FeedbackAmount = 4,
-                        Labael = "Promocja",
+                        Label = "Promocja",
                         Rating = 4.5,
                     },
                 };
-                context.ProductsDb.AddRange(products);
+                context.Products.AddRange(products);
                 context.SaveChanges();
             }
         }

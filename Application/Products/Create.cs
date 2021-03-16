@@ -57,18 +57,18 @@ namespace Application.Products
                     Price = request.Price ,
                     ShippingCost = request.ShippingCost ,
                     Currency = request.Currency ,
-                    Discryption = request.Discryption ,
+                    Description = request.Discryption ,
                     Discount = request.Discount ,
-                    Availabity = request.Availabity ,
+                    Availability = request.Availabity ,
                     BuyersAmount = request.BuyersAmount ,
                     FeedbackAmount = request.FeedbackAmount ,
-                    Labael = request.Labael,
+                    Label = request.Labael,
                     Rating = request.Rating,
                     AddedDate = request.AddedDate ,
                     EndDate = request.EndDate 
                 };
 
-                _context.ProductsDb.Add(product);
+                _context.Products.Add(product);
                 var sucess = await _context.SaveChangesAsync() > 0;
                 if (sucess)
                 {

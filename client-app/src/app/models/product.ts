@@ -10,12 +10,12 @@ export interface IProduct{
     price: number;
     shippingCost: number;
     currency: string;
-    discryption: string;
+    description: string;
     discount: number;
-    availabity: boolean;
+    availability: boolean;
     buyersAmount: number;
     feedbackAmount: number;
-    labael: string;
+    label: string;
     rating: number;
     addedDate: string;
     endDate: string;

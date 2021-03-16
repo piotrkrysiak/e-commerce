@@ -37,9 +37,9 @@ export default observer(function ProductDetails() {
         ]}
       >
         <Meta title={product.name} />
-        <Meta description={product.discryption} />
+        <Meta description={product.label} />
         <div>
-          {product.price} {product.currency}
+          {product.price} {product.availability}
         </div>
       </Card>
     </div>

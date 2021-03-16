@@ -22,7 +22,7 @@ namespace Application.Products
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
-                var product = await _context.ProductsDb.FindAsync(request.Id);
+                var product = await _context.Products.FindAsync(request.Id);
                 if (product == null)
                 {
                     throw new Exception("Could not find product");

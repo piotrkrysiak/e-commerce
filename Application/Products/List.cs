@@ -22,7 +22,7 @@ namespace Application.Products
 
             public async Task<List<Product>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var products = await _context.ProductsDb.ToListAsync();
+                var products = await _context.Products.ToListAsync();
 
                 return products;
             }

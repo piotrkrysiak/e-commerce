@@ -25,7 +25,7 @@ export default observer(function Product() {
         ({
           id,
           name,
-          discryption,
+          description: discription,
           mainPhoto,
           rating,
           feedbackAmount,
@@ -69,7 +69,7 @@ export default observer(function Product() {
                     </Row>
                   }
                 />
-                {discryption}
+                {discription}
 
                 <Row gutter={[8, 8]}>
                   <Col>

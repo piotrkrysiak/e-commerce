@@ -34,15 +34,15 @@ export default observer(function ProductForm() {
 
   const [product, setProduct] = useState<IProduct>({
     addedDate: "0001-01-01T00:00:00",
-    availabity: true,
+    availability: true,
     buyersAmount: 5,
     currency: "zł",
     discount: 20,
-    discryption: "",
+    description: "",
     endDate: "0001-01-01T00:00:00",
     feedbackAmount: 4,
     id: "",
-    labael: "",
+    label: "",
     mainPhoto:
       "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/4/pr_2020_4_9_13_38_6_587_00.jpg",
     model: "M.2 2280",
@@ -181,7 +181,7 @@ export default observer(function ProductForm() {
             name="discryption"
             onChange={handleInputChange}
             placeholder="descryption"
-            value={product.discryption}
+            value={product.description}
           />
         </Form.Item>
         <Form.Item label="Discount">
@@ -217,7 +217,7 @@ export default observer(function ProductForm() {
             name="label"
             onChange={handleInputChange}
             placeholder="label"
-            value={product.labael}
+            value={product.label}
           />
         </Form.Item>
         <Form.Item label="rating">
