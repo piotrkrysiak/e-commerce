@@ -4,8 +4,7 @@
   padding: 20px 15px;
 }
 
-
-.active .container-fluid{
+.active .container-fluid {
   margin: 0 auto;
   max-width: 1200px;
   padding: 0px 15px;
@@ -17,18 +16,17 @@
   align-items: center;
   padding: 30px 15px;
 }
-.ant-layout-header .active {
-  background: #ffffff;
+.nav .active {
+  background-color: #ffffff;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
-.ant-layout-header {
+.nav {
   position: fixed;
   left: 0;
   right: 0;
   z-index: 999;
   background-color: transparent;
-  padding: 0;
   height: auto;
   line-height: 1.6;
   box-shadow: none;

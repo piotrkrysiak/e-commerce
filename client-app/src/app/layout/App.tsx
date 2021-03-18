@@ -1,5 +1,5 @@
 import React from "react";
-import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
+import Layout, { Content, Footer } from "antd/lib/layout/layout";
 import NavBar from "../../features/nav/NavBar";
 import PageFooter from "../../features/nav/PageFooter";
 import { observer } from "mobx-react-lite";
@@ -21,9 +21,7 @@ const App = () => {
         path={"/(.+)"}
         render={() => (
           <Layout>
-            <Header>
-              <NavBar />
-            </Header>
+            <NavBar />
             <Content>
               <Route path="/products" exact component={ProductDashboard} />
               <Route path="/products/:id" component={ProductDetails} />
