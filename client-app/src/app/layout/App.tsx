@@ -1,15 +1,15 @@
 import React from "react";
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
-import "antd/dist/antd.css";
 import NavBar from "../../features/nav/NavBar";
 import PageFooter from "../../features/nav/PageFooter";
-
 import { observer } from "mobx-react-lite";
 import { Route, useLocation } from "react-router-dom";
 import HomePage from "../../features/home/HomePage";
 import ProductDashboard from "../../features/dashboard/ProductDashboard";
 import ProductForm from "../../features/form/ProductForm";
 import ProductDetails from "../../features/details/ProductDetails";
+import "./styles.css";
+import "antd/dist/antd.css";
 
 const App = () => {
   const location = useLocation();

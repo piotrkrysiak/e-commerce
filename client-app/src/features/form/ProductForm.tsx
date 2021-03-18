@@ -15,6 +15,7 @@ import { observer } from "mobx-react-lite";
 import { Link, useHistory, useParams } from "react-router-dom";
 import LoadingComponent from "../components/design/LoadingComponent";
 import { v4 as uuid } from "uuid";
+import styled from "styled-components";
 
 // TODO: OnChange on date and number rozdziel na mniejsze
 
@@ -94,7 +95,7 @@ export default observer(function ProductForm() {
   if (loadingInitial) return <LoadingComponent />;
 
   return (
-    <div style={{ backgroundColor: "white", padding: "20px" }}>
+    <FormContainer>
       <Form
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 18 }}
@@ -249,11 +250,31 @@ export default observer(function ProductForm() {
           <Button onClick={handleSubmit} type="primary" loading={loading}>
             Submit
           </Button>
-          <Link to ='/products'>
+          <Link to="/products">
             <Button>Cancel</Button>
           </Link>
         </Row>
       </Form>
-    </div>
+    </FormContainer>
   );
 });
+const FormContainer = styled.div`
+  display: flex;
+  margin: 20vh 10vw;
+  justify-content: center;
+  align-items: center;
+  .ant-form {
+    width: 90vh;
+    height: auto;
+    background-color: white;
+    border-radius: 20px;
+    padding: 5vh 10vh;
+  }
+  .ant-row {
+    justify-content: center;
+    align-items: center;
+  }
+  .ant-btn {
+    margin: 10px;
+  }
+`;

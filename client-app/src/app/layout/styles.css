@@ -1,35 +1,10 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@import url("https://fonts.googleapis.com/css2?family=Sora&display=swap");
 * {
-  font-family: "Sora", sans-serif;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 500;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 
 .ant-layout-footer {
   justify-content: center;
@@ -39,5 +14,3 @@
   background-color: #ffffff;
   height: 60px;
 }
-
-

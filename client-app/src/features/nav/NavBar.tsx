@@ -2,8 +2,6 @@ import { Button, Drawer, Menu } from "antd";
 import React, { useState } from "react";
 import "./nav.css";
 import { MenuOutlined } from "@ant-design/icons";
-import logo from "../../app/assets/logo1.png";
-import { SearchInput } from "./Search";
 import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
@@ -31,12 +29,9 @@ export default function NavBar() {
       <div className="container-fluid">
         <div className="header">
           <div className="logo">
-            <img alt="logo" src={logo}></img>
             <a href="/">S Tech</a>
           </div>
-          <div className="mobileHidden">
-            <SearchInput />
-          </div>
+          <div className="mobileHidden"></div>
           <div className="mobileHidden">
             <Menu mode="horizontal">
               <Menu.Item>
@@ -64,9 +59,20 @@ export default function NavBar() {
               onClose={onClose}
               visible={visible}
             >
-              <p></p>
-              <p>Home</p>
-              <p>About</p>
+              <Menu mode="vertical">
+                <Menu.Item>
+                  Menu
+                  <NavLink to="/"></NavLink>
+                </Menu.Item>
+                <Menu.Item>
+                  Products
+                  <NavLink to="/Products"></NavLink>
+                </Menu.Item>
+                <Menu.Item>
+                  Form
+                  <NavLink to="/createForm"></NavLink>
+                </Menu.Item>
+              </Menu>
             </Drawer>
           </div>
         </div>

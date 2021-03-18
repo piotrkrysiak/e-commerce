@@ -5,6 +5,7 @@ import ProductList from "./ProductList";
 import LoadingComponent from "../components/design/LoadingComponent";
 import Row from "antd/lib/grid/row";
 import Col from "antd/lib/grid/col";
+import styled from "styled-components";
 
 export default observer(function ProductDashboard() {
   const { productStore } = useStore();
@@ -19,12 +20,23 @@ export default observer(function ProductDashboard() {
   if (productStore.loadingInitial) return <LoadingComponent />;
 
   return (
-    <div style={{ margin: "200px 0px 200px" }}>
+    <ProductContainer>
       <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={{ span: 13, offset: 1 }}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }}>
           <ProductList />
         </Col>
       </Row>
-    </div>
+    </ProductContainer>
   );
 });
+
+const ProductContainer = styled.div`
+  margin: 20vh 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .ant-card {
+    width: 80vh;
+    height: auto;
+  }
+`;
