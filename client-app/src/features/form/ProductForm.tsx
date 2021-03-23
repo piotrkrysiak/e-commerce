@@ -1,5 +1,13 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { Form, Button, DatePicker, Input, Row } from "antd";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import {
+  Form,
+  Button,
+  DatePicker,
+  Input,
+  Row,
+  InputNumber,
+  Switch,
+} from "antd";
 import { IProduct } from "../../app/models/product";
 import moment from "moment";
 import { useStore } from "../../app/stores/store";
@@ -9,12 +17,11 @@ import LoadingComponent from "../components/design/LoadingComponent";
 import { v4 as uuid } from "uuid";
 import styled from "styled-components";
 
-// TODO: validation, error handler, endData, number field, file structure
+// TODO: validation, error handling, file structure, migrations
 
 const dateFormat = "YYYY-MM-DD";
 
 export default observer(function ProductForm() {
-  const history = useHistory();
   const { productStore } = useStore();
   const {
     createProduct,
@@ -23,16 +30,18 @@ export default observer(function ProductForm() {
     loadProduct,
     loadingInitial,
   } = productStore;
+
+  const history = useHistory();
   const { id } = useParams<{ id: string }>();
 
   const [product, setProduct] = useState<IProduct>({
-    addedDate: "0001-01-01T00:00:00",
+    addedDate: "2021-01-01T00:00:00",
     availability: false,
     buyersAmount: 0,
     currency: "zł",
     discount: 0,
     description: "",
-    endDate: "0001-01-01T00:00:00",
+    endDate: "2021-01-01T00:00:00",
     feedbackAmount: 4,
     id: "",
     label: "",
@@ -53,13 +62,7 @@ export default observer(function ProductForm() {
   useEffect(() => {
     if (id) loadProduct(id).then((product) => setProduct(product!));
   }, [id, loadProduct]);
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement> | any) => {
-    const { name, value } = event.currentTarget;
-    console.log(name);
-    setProduct({ ...product, [name]: value });
-  };
-
+  
   const handleSubmit = () => {
     if (product.id.length === 0) {
       let newProduct = {
@@ -76,13 +79,31 @@ export default observer(function ProductForm() {
     }
   };
 
-  const handleDateChange = (_moment: any, date: any) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement> | any) => {
+    const { name, value } = event.currentTarget;
+    console.log(name);
+    setProduct({ ...product, [name]: value });
+  };
+
+  const handleSwitch = (checked: any) => {
+    console.log(checked);
+    console.log(product);
+    product.availability = checked;
+    setProduct({ ...product, ["availability"]: checked });
+  };
+
+
+  const handleDateChange = (_moment: any, date: any, name: string) => {
     const value = date;
     console.log(value);
-    product.addedDate = value;
-    setProduct(product);
+    setProduct({ ...product, [name]: value });
     console.log(product);
   };
+
+  function handleNumberChange(id: any, value: any) {
+    console.log(id);
+    setProduct({ ...product, [id]: value });
+  }
 
   if (loadingInitial) return <LoadingComponent />;
 
@@ -95,9 +116,9 @@ export default observer(function ProductForm() {
         initialValues={{ size: "default" }}
       >
         <Form.Item label="storeId">
-          <Input
+          <InputNumber
             name="storeId"
-            onChange={handleInputChange}
+            onChange={(e) => handleNumberChange("storeId", e)}
             placeholder="storeId"
             value={product.storeId}
           />
@@ -151,17 +172,17 @@ export default observer(function ProductForm() {
           />
         </Form.Item>
         <Form.Item label="price">
-          <Input
+          <InputNumber
             name="price"
-            onChange={handleInputChange}
+            onChange={(e) => handleNumberChange("price", e)}
             placeholder="price"
             value={product.price}
           />
         </Form.Item>
         <Form.Item label="shippingcost">
-          <Input
+          <InputNumber
             name="shippingCost"
-            onChange={handleInputChange}
+            onChange={(e) => handleNumberChange("shippingCost", e)}
             placeholder="shippingcost"
             value={product.shippingCost}
           />
@@ -174,8 +195,8 @@ export default observer(function ProductForm() {
             value={product.currency}
           />
         </Form.Item>
-        <Form.Item label="Descryption">
-          <Input.TextArea
+        <Form.Item label="Description">
+          <Input
             name="description"
             onChange={handleInputChange}
             placeholder="description"
@@ -183,26 +204,26 @@ export default observer(function ProductForm() {
           />
         </Form.Item>
         <Form.Item label="Discount">
-          <Input
+          <InputNumber
             name="discount"
-            onChange={handleInputChange}
+            onChange={(e) => handleNumberChange("discount", e)}
             placeholder="discount"
             value={product.discount}
           />
         </Form.Item>
         <Form.Item label="bouyersAmount">
-          <Input
+          <InputNumber
             name="bouyersAmount"
-            onChange={handleInputChange}
+            onChange={(e) => handleNumberChange("buyersAmount", e)}
             placeholder="buyersAmount"
             value={product.buyersAmount}
           />
         </Form.Item>
-        <Form.Item label="feedbackAmoint">
-          <Input
-            name="feedbackAmoint"
-            onChange={handleInputChange}
-            placeholder="feedbackAmoint"
+        <Form.Item label="feedbackAmount">
+          <InputNumber
+            name="feedbackAmount"
+            onChange={(e) => handleNumberChange("feedbackAmount", e)}
+            placeholder="feedbackAmount"
             value={product.feedbackAmount}
           />
         </Form.Item>
@@ -216,20 +237,31 @@ export default observer(function ProductForm() {
           />
         </Form.Item>
         <Form.Item label="rating">
-          <Input
+          <InputNumber
             name="rating"
-            onChange={handleInputChange}
+            onChange={(e) => handleNumberChange("rating", e)}
             placeholder="rating"
             value={product.rating}
           />
         </Form.Item>
         <Form.Item label="addedDate">
           <DatePicker
-            defaultValue={moment(product.addedDate, dateFormat)}
-            onChange={handleDateChange}
+            value={moment(product.addedDate, dateFormat)}
+            onChange={(m, d) => handleDateChange(m, d, "addedDate")}
             name="addedDate"
             format="YYYY-MM-DD"
           />
+        </Form.Item>
+        <Form.Item label="endDate">
+          <DatePicker
+            value={moment(product.endDate, dateFormat)}
+            onChange={(m, d) => handleDateChange(m, d, "endDate")}
+            name="endDate"
+            format="YYYY-MM-DD"
+          />
+        </Form.Item>
+        <Form.Item label="Availaibity:">
+          <Switch checked={product.availability} onClick={handleSwitch} />
         </Form.Item>
         <Row>
           <Button onClick={handleSubmit} type="primary" loading={loading}>
@@ -243,6 +275,7 @@ export default observer(function ProductForm() {
     </FormContainer>
   );
 });
+
 const FormContainer = styled.div`
   display: flex;
   margin: 20vh 10vw;
